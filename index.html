@@ -220,6 +220,7 @@
   .doclink[hidden]{ display:none; }
   a.inline-doclink{ color:var(--accent); text-decoration:underline; text-underline-offset:.15em; cursor:pointer; }
   a.inline-doclink[hidden]{ display:none; }
+  .cover-doclink{ display:none; }
 
   .docviewer{
     position:fixed; inset:0; z-index:100;
@@ -283,6 +284,16 @@
     .slide{ flex:none; width:100%; height:auto; min-height:100dvh; overflow:visible; }
     .progress, .counter, .navzone, .arrow{ display:none; }
     #s0{ min-height:auto; padding-bottom:8vh; }
+
+    .cover-doclink{
+      margin-top:3.5vh;
+      display:inline-flex; align-items:center; gap:2vw;
+      font-size:15px; font-weight:700; color:var(--surface);
+      background:var(--accent); padding:1.6vh 5vw; border-radius:99px;
+      text-decoration:none; width:fit-content;
+    }
+    .cover-doclink svg{ width:1.2em; height:1.2em; }
+    .cover-doclink svg path{ stroke:currentColor; }
   }
   @media (max-width:600px){
     .votemap, .options, .rest-list, .checklist, .rest-list.cols-3{ grid-template-columns:1fr; }
@@ -318,6 +329,7 @@
       <div class="meta">
         <div>공동의회<strong>2026년 9월 13일</strong></div>
       </div>
+      <a class="cover-doclink" id="coverDoclinkBtn"><svg viewBox="0 0 24 24" fill="none"><path d="M7 3h7l5 5v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z" stroke-width="1.6" stroke-linejoin="round"/><path d="M14 3v5h5" stroke-width="1.6" stroke-linejoin="round"/></svg>정관내용 상세보기</a>
     </div>
   </section>
 
@@ -510,13 +522,14 @@
   (function setupDocLink(){
     var pill = document.getElementById('doclink');
     var inlineLink = document.getElementById('coverDoclink');
+    var coverBtn = document.getElementById('coverDoclinkBtn');
     var dataUrl = 'data:application/pdf;base64,' + window.PDF_B64;
 
     // A plain <a href target="_blank"> is the one pattern that reliably
     // works across desktop, mobile Safari/Chrome, and restrictive in-app
     // browsers (KakaoTalk, etc.) — those often can't render a PDF inside
     // an iframe, but they all know how to follow a normal link.
-    [pill, inlineLink].forEach(function(el){
+    [pill, inlineLink, coverBtn].forEach(function(el){
       el.href = dataUrl;
       el.target = '_blank';
       el.rel = 'noopener';
